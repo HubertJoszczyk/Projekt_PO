@@ -80,30 +80,75 @@ class Koszyk{
 
     }
     public void Usun_Fizyczna(){
-
+        Ksiazki_Fizyczne.RemoveAt();
     }
     public void Dodaj_Cyfrowa(){
 
     }
     public void Usun_Cyfrowa(){
-
+        Ksiazki_Cyfrowe.RemoveAt();
     }
     public Koszyk(){}
 }
 class Magazyn{
     private List<Ksiazka> Lista_Ksiazki = new List<Ksiazka>();
-    public Dodaj_Ksiazke_Cyfrowa(Ksiazka_Cyfrowa ksiazka_cyfrowa){
+    public void Dodaj_Ksiazke_Cyfrowa(Ksiazka_Cyfrowa ksiazka_cyfrowa){
         
     }
+    public void Dodaj_Ksiazke_Fizyczna(Ksiazka_Fizyczna ksiazka_fizyczna){
+
+    }
+    
 }
 class Ksiazka{
+    private string Tytul;
+    private string Autor;
+    private string Kategoria;
+    private double Cena;
+    public string GetTytul(){
+        return Tytul;
+    }
+    public string GetAutor(){
+        return Autor;
+    }
+    public string GetKategoria(){
+        return Kategoria;
+    }
+    public double GetCena(){
+        return Cena;
+    }
+    public string OpiszKsiazke(){
 
+    }
+    public Ksiazka(string Tytul,string Autor,string Kategoria,double Cena){
+        this.Autor=Autor;
+        this.Cena=Cena;
+        this.Tytul=Tytul;
+        this.Kategoria=Kategoria;
+    }
 }
 class Ksiazka_Fizyczna:Ksiazka{
+    
+    private string Oprawa;
+    public string GetOprawa(){
+        return Oprawa;
+    }
+    public Ksiazka_Fizyczna(string Tytul,string Autor,string Kategoria,double Cena):base(Tytul,Autor,Kategoria,Cena){
 
+    }
 }
 class Ksiazka_Cyfrowa:Ksiazka{
-
+    private string Link_do_Pobrania;
+    private string Format;
+    public string GetFormat(){
+        return Format;
+    }
+    public string GetLink(){
+        return Link_do_Pobrania;
+    }
+    public Ksiazka_Cyfrowa(string Tytul,string Autor,string Kategoria,double Cena,string Format):base(Tytul,Autor,Kategoria,Cena){
+        
+    }
 }
 class Klient{
     private Koszyk Koszyk_Klient;
@@ -139,8 +184,10 @@ class Baza_Klientow{
     public List<Klient> GetKlienci(){
         return Lista_Klienci;
     }
-    public Baza_Klientow(string Nazwa_Pliku){}
-    public Zapisz_Klientow(List<Klient> Lista_Klienci){
+    public Baza_Klientow(string Nazwa_Pliku){
+
+    }
+    public void Zapisz_Klientow(List<Klient> Lista_Klienci){
         
     }
 }
