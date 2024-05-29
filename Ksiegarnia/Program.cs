@@ -2,7 +2,7 @@
 
 class Baza_Pracownikow{
     private List<Pracownik> Lista_Pracownicy = new List<Pracownik>();
-    private Baza_Pracownicy;
+    private StreamWriter Baza_Pracownicy;
     public List<Pracownik> GetPracownicy(){
         return Lista_Pracownicy;
     }
@@ -13,10 +13,10 @@ class Baza_Pracownikow{
         Lista_Pracownicy.RemoveAt(Id);
     }
     public void ZapiszPracownicy(){
-        System.IO.File.WriteAllLines("Baza_Pracownicy.txt",Lista_Pracownicy.All());
+        
     }
-    public Baza_Pracownikow(String Nazwa_Pliku){
-        System.IO.File.ReadAllLines();
+    public Baza_Pracownikow(String Nazwa_Pliku_Pracownicy){
+        this.Baza_Pracownicy = new StreamWriter("Nazwa_Pliku_Pracownicy");
 
     }
 }
@@ -41,7 +41,7 @@ class Pracownik{
 }
 class Baza_Zamowien{
     private List<Zamowienie> Lista_Zamowien = new List<Zamowienie>();
-    private Baza_Zamowienia;
+    private StreamWriter Baza_Zamowienia;
     public List<Zamowienie> GetZamowienia(){
         return Lista_Zamowien;
     }
@@ -51,8 +51,8 @@ class Baza_Zamowien{
     public void Dodaj_Zamowienie(Zamowienie zamowienie){
         Lista_Zamowien.Add(zamowienie);
     }
-    public Baza_Zamowien(String Nazwa_Pliku){
-
+    public Baza_Zamowien(String Nazwa_Pliku_Zamowienia){
+        this.Baza_Zamowienia = new StreamWriter("Nazwa_Pliku_Zamowienia");
     }
 }
 class Zamowienie{
@@ -67,36 +67,38 @@ class Zamowienie{
         return Adres;
     }
     public void Zmien_Status(int Id){
-
+        this.Status = "Zrealizowane";
     }
     public Zamowienie(string Adres,Koszyk koszyk){
-
+        this.Adres = Adres;
+        this.koszyk = koszyk;
+        this.Status = "Przyjete";
     }
 }
 class Koszyk{
     private List<Ksiazka> Ksiazki_Fizyczne = new List<Ksiazka>();
     private List<Ksiazka> Ksiazki_Cyfrowe = new List<Ksiazka>();
-    public void Dodaj_Fizyczna(){
-
+    public void Dodaj_Fizyczna(Ksiazka_Fizyczna ksiazka_Fizyczna){
+        Ksiazki_Fizyczne.Add(ksiazka_Fizyczna);
     }
-    public void Usun_Fizyczna(){
-        Ksiazki_Fizyczne.RemoveAt();
+    public void Usun_Fizyczna(int ID){
+        Ksiazki_Fizyczne.RemoveAt(ID);
     }
-    public void Dodaj_Cyfrowa(){
-
+    public void Dodaj_Cyfrowa(Ksiazka_Cyfrowa ksiazka_Cyfrowa){
+        Ksiazki_Cyfrowe.Add(ksiazka_Cyfrowa);
     }
-    public void Usun_Cyfrowa(){
-        Ksiazki_Cyfrowe.RemoveAt();
+    public void Usun_Cyfrowa(int id){
+        Ksiazki_Cyfrowe.RemoveAt(id);
     }
     public Koszyk(){}
 }
 class Magazyn{
     private List<Ksiazka> Lista_Ksiazki = new List<Ksiazka>();
     public void Dodaj_Ksiazke_Cyfrowa(Ksiazka_Cyfrowa ksiazka_cyfrowa){
-        
+        Lista_Ksiazki.Add(ksiazka_cyfrowa);
     }
     public void Dodaj_Ksiazke_Fizyczna(Ksiazka_Fizyczna ksiazka_fizyczna){
-
+        Lista_Ksiazki.Add(ksiazka_fizyczna);
     }
     
 }
@@ -118,7 +120,7 @@ class Ksiazka{
         return Cena;
     }
     public string OpiszKsiazke(){
-
+        
     }
     public Ksiazka(string Tytul,string Autor,string Kategoria,double Cena){
         this.Autor=Autor;
@@ -133,8 +135,8 @@ class Ksiazka_Fizyczna:Ksiazka{
     public string GetOprawa(){
         return Oprawa;
     }
-    public Ksiazka_Fizyczna(string Tytul,string Autor,string Kategoria,double Cena):base(Tytul,Autor,Kategoria,Cena){
-
+    public Ksiazka_Fizyczna(string Tytul,string Autor,string Kategoria,double Cena,string Oprawa):base(Tytul,Autor,Kategoria,Cena){
+        this.Oprawa = Oprawa; 
     }
 }
 class Ksiazka_Cyfrowa:Ksiazka{
@@ -147,7 +149,8 @@ class Ksiazka_Cyfrowa:Ksiazka{
         return Link_do_Pobrania;
     }
     public Ksiazka_Cyfrowa(string Tytul,string Autor,string Kategoria,double Cena,string Format):base(Tytul,Autor,Kategoria,Cena){
-        
+        this.Format = Format;
+        this.Link_do_Pobrania = "";
     }
 }
 class Klient{
@@ -170,11 +173,13 @@ class Klient{
     public Klient(string Imie_klient,string Nazwisko_klient){
         this.Imie = Imie_klient;
         this.Nazwisko = Nazwisko_klient;
+        this.Koszyk_Klient = 0;
+        this.Id = 0;
     }
 }
 class Baza_Klientow{
     private List<Klient> Lista_Klienci = new List<Klient>();
-    private Baza_Klienci;
+    private StreamWriter Baza_Klienci;
     public void Dodaj_Klienta(Klient klient){
         Lista_Klienci.Add(klient);
     }
@@ -184,8 +189,8 @@ class Baza_Klientow{
     public List<Klient> GetKlienci(){
         return Lista_Klienci;
     }
-    public Baza_Klientow(string Nazwa_Pliku){
-
+    public Baza_Klientow(string Nazwa_Pliku_Klienci){
+        this.Baza_Klienci = new StreamWriter("Nazwa_Pliku_Klienci");
     }
     public void Zapisz_Klientow(List<Klient> Lista_Klienci){
         
