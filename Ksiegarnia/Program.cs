@@ -1,198 +1,252 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
-class Baza_Pracownikow{
-    private List<Pracownik> Lista_Pracownicy = new List<Pracownik>();
-    private StreamWriter Baza_Pracownicy;
-    public List<Pracownik> GetPracownicy(){
-        return Lista_Pracownicy;
-    }
-    public void Dodaj_Pracownik(Pracownik pracownik){
-        Lista_Pracownicy.Add(pracownik);
-    }
-    public void Usun_Pracownik(int Id){
-        Lista_Pracownicy.RemoveAt(Id);
-    }
-    public void ZapiszPracownicy(){
-        
-    }
-    public Baza_Pracownikow(String Nazwa_Pliku_Pracownicy){
-        this.Baza_Pracownicy = new StreamWriter("Nazwa_Pliku_Pracownicy");
+class Baza_pracownikow
+{
+    string sciezkaPliku = "Baza_pracownikow.txt";
+    protected List<Tuple<int, string, string>> pracownicy = new List<Tuple<int, string, string>>();
+    private int currentID = 0;
 
+    public void DodajPracownika(string imie, string nazwisko)
+    {
+        pracownicy.Add(new Tuple<int, string, string>(currentID, imie, nazwisko));
+        currentID++;
+    }
+
+    public void ZapiszDoPliku(string sciezkaPliku)
+    {
+        using (StreamWriter sw = new StreamWriter(sciezkaPliku))
+        {
+            foreach (var pracownik in pracownicy)
+            {
+                sw.WriteLine($"{pracownik.Item1},{pracownik.Item2},{pracownik.Item3}");
+            }
+        }
+    }
+    public void OdczytajZPliku(string sciezkaPliku)
+    {
+        using (StreamReader sr = new StreamReader(sciezkaPliku))
+        {
+            string linia;
+            while ((linia = sr.ReadLine()) != null)
+            {
+                string[] dane = linia.Split(',');
+                int id = int.Parse(dane[0]);
+                string imie = dane[1];
+                string nazwisko = dane[2];
+                pracownicy.Add(new Tuple<int, string, string>(id, imie, nazwisko));
+                if (id >= currentID)
+                {
+                    currentID = id + 1;
+                }
+            }
+        }
     }
 }
-class Pracownik{
+
+class Pracownicy : Baza_pracownikow
+{
     private string Imie;
     private string Nazwisko;
-    private int Id;
-    public string GetImie(){
+    public string GetImie()
+    {
         return Imie;
     }
-    public string GetNazwisko(){
+    public string GetNazwisko()
+    {
         return Nazwisko;
     }
-    public int GetId(){
-        return Id;
-    }
-    public Pracownik(String imie_pracownik,String nazwisko_pracownik,int id){
-        this.Imie = imie_pracownik;
-        this.Nazwisko = nazwisko_pracownik;
-        this.Id = id;
+    public void UzupelnijDanePracownika(string imie, string nazwisko)
+    {
+        DodajPracownika(imie, nazwisko);
     }
 }
-class Baza_Zamowien{
-    private List<Zamowienie> Lista_Zamowien = new List<Zamowienie>();
-    private StreamWriter Baza_Zamowienia;
-    public List<Zamowienie> GetZamowienia(){
-        return Lista_Zamowien;
+class Koszyk
+{
+    private List<Produkt> produktyWKoszyku = new List<Produkt>();
+
+    public void DodajProduktDoKoszyka(Produkt produkt)
+    {
+        produktyWKoszyku.Add(produkt);
+        Console.WriteLine($"Produkt \"{produkt.Nazwa}\" został dodany do koszyka.");
     }
-    public void Usun_Zamowienie(int Id){
-        Lista_Zamowien.RemoveAt(Id);
-    }
-    public void Dodaj_Zamowienie(Zamowienie zamowienie){
-        Lista_Zamowien.Add(zamowienie);
-    }
-    public Baza_Zamowien(String Nazwa_Pliku_Zamowienia){
-        this.Baza_Zamowienia = new StreamWriter("Nazwa_Pliku_Zamowienia");
-    }
-}
-class Zamowienie{
-    private string Status;
-    private int Id;
-    private string Adres;
-    private Koszyk koszyk;
-    public string GetStatus(){
-        return Status;
-    }
-    public string GetAdres(){
-        return Adres;
-    }
-    public void Zmien_Status(int Id){
-        this.Status = "Zrealizowane";
-    }
-    public Zamowienie(string Adres,Koszyk koszyk){
-        this.Adres = Adres;
-        this.koszyk = koszyk;
-        this.Status = "Przyjete";
+    public void WyswietlProduktyWKoszyku()
+    {
+        Console.WriteLine("Produkty w koszyku:");
+        foreach (var produkt in produktyWKoszyku)
+        {
+            Console.WriteLine(produkt);
+        }
     }
 }
-class Koszyk{
-    private List<Ksiazka> Ksiazki_Fizyczne = new List<Ksiazka>();
-    private List<Ksiazka> Ksiazki_Cyfrowe = new List<Ksiazka>();
-    public void Dodaj_Fizyczna(Ksiazka_Fizyczna ksiazka_Fizyczna){
-        Ksiazki_Fizyczne.Add(ksiazka_Fizyczna);
+class Produkt
+{
+    public string Nazwa { get; set; }
+    public string Kategoria { get; set; }
+    public string Autor { get; set; }
+    public decimal Cena { get; set; }
+
+    public Produkt(string nazwa, string kategoria, string autor, decimal cena)
+    {
+        this.Nazwa = nazwa;
+        this.Kategoria = kategoria;
+        this.Autor = autor;
+        this.Cena = cena;
     }
-    public void Usun_Fizyczna(int ID){
-        Ksiazki_Fizyczne.RemoveAt(ID);
-    }
-    public void Dodaj_Cyfrowa(Ksiazka_Cyfrowa ksiazka_Cyfrowa){
-        Ksiazki_Cyfrowe.Add(ksiazka_Cyfrowa);
-    }
-    public void Usun_Cyfrowa(int id){
-        Ksiazki_Cyfrowe.RemoveAt(id);
-    }
-    public Koszyk(){}
-}
-class Magazyn{
-    private List<Ksiazka> Lista_Ksiazki = new List<Ksiazka>();
-    public void Dodaj_Ksiazke_Cyfrowa(Ksiazka_Cyfrowa ksiazka_cyfrowa){
-        Lista_Ksiazki.Add(ksiazka_cyfrowa);
-    }
-    public void Dodaj_Ksiazke_Fizyczna(Ksiazka_Fizyczna ksiazka_fizyczna){
-        Lista_Ksiazki.Add(ksiazka_fizyczna);
-    }
-    
-}
-class Ksiazka{
-    private string Tytul;
-    private string Autor;
-    private string Kategoria;
-    private double Cena;
-    public string GetTytul(){
-        return Tytul;
-    }
-    public string GetAutor(){
-        return Autor;
-    }
-    public string GetKategoria(){
-        return Kategoria;
-    }
-    public double GetCena(){
-        return Cena;
-    }
-    public string OpiszKsiazke(){
-        
-    }
-    public Ksiazka(string Tytul,string Autor,string Kategoria,double Cena){
-        this.Autor=Autor;
-        this.Cena=Cena;
-        this.Tytul=Tytul;
-        this.Kategoria=Kategoria;
+
+    public override string ToString()
+    {
+        return $"{Nazwa},{Kategoria},{Autor},{Cena}";
     }
 }
-class Ksiazka_Fizyczna:Ksiazka{
-    
-    private string Oprawa;
-    public string GetOprawa(){
-        return Oprawa;
+
+class Magazyn
+{
+    string sciezkaPliku = "Magazyn.txt";
+    private List<Produkt> produkty = new List<Produkt>();
+
+    public void DodajProdukt(Produkt produkt)
+    {
+        produkty.Add(produkt);
     }
-    public Ksiazka_Fizyczna(string Tytul,string Autor,string Kategoria,double Cena,string Oprawa):base(Tytul,Autor,Kategoria,Cena){
-        this.Oprawa = Oprawa; 
+
+    public void SortujPoNazwie()
+    {
+        produkty = produkty.OrderBy(p => p.Nazwa).ToList();
     }
-}
-class Ksiazka_Cyfrowa:Ksiazka{
-    private string Link_do_Pobrania;
-    private string Format;
-    public string GetFormat(){
-        return Format;
+
+    public void SortujPoKategorii()
+    {
+        produkty = produkty.OrderBy(p => p.Kategoria).ToList();
     }
-    public string GetLink(){
-        return Link_do_Pobrania;
+
+    public void SortujPoAutorze()
+    {
+        produkty = produkty.OrderBy(p => p.Autor).ToList();
     }
-    public Ksiazka_Cyfrowa(string Tytul,string Autor,string Kategoria,double Cena,string Format):base(Tytul,Autor,Kategoria,Cena){
-        this.Format = Format;
-        this.Link_do_Pobrania = "";
+
+    public void SortujPoCenie()
+    {
+        produkty = produkty.OrderBy(p => p.Cena).ToList();
     }
-}
-class Klient{
-    private Koszyk Koszyk_Klient;
-    private int Id;
-    private string Imie;
-    private string Nazwisko;
-    public int GetId(){
-        return Id;
-    }
-    public string GetImie(){
-        return Imie;
-    }
-    public string GetNazwisko(){
-        return Nazwisko;
-    }
-    public Koszyk GetKoszyk(){
-        return Koszyk_Klient;
-    }
-    public Klient(string Imie_klient,string Nazwisko_klient){
-        this.Imie = Imie_klient;
-        this.Nazwisko = Nazwisko_klient;
-        this.Koszyk_Klient = 0;
-        this.Id = 0;
+
+    public void ZapiszDoPliku(string sciezkaPliku)
+    {
+        using (StreamWriter sw = new StreamWriter(sciezkaPliku))
+        {
+            foreach (Produkt produkt in produkty)
+            {
+                sw.WriteLine(produkt.ToString());
+            }
+        }
     }
 }
-class Baza_Klientow{
-    private List<Klient> Lista_Klienci = new List<Klient>();
-    private StreamWriter Baza_Klienci;
-    public void Dodaj_Klienta(Klient klient){
-        Lista_Klienci.Add(klient);
+class Realizacja
+{
+
+}
+
+class Cyfrowa : Produkt
+{
+    public bool JestEbookiem { get; set; }
+    public bool JestAudiobookiem { get; set; }
+
+    public Cyfrowa(string nazwa, string kategoria, string autor, decimal cena, bool jestEbookiem, bool jestAudiobookiem)
+        : base(nazwa, kategoria, autor, cena)
+    {
+        JestEbookiem = jestEbookiem;
+        JestAudiobookiem = jestAudiobookiem;
     }
-    public void Usun_Klienta(int Id){
-        Lista_Klienci.RemoveAt(Id);
+}
+
+class Fizyczna : Produkt
+{
+    public bool miekkaOprawa { get; set; }
+    public bool twardaOprawa { get; set; }
+
+    public Fizyczna(string nazwa, string kategoria, string autor, decimal cena, bool miekkaOprawa, bool twardaOprawa)
+        : base(nazwa, kategoria, autor, cena)
+    {
+        miekkaOprawa = miekkaOprawa;
+        twardaOprawa = twardaOprawa;
     }
-    public List<Klient> GetKlienci(){
-        return Lista_Klienci;
+}
+
+class Baza_klientow
+{
+    string sciezkaPliku = "Baza_klientow.txt";
+    protected List<Tuple<int, string, string>> klienci = new List<Tuple<int, string, string>>();
+    private int currentID = 0;
+
+    public void DodajKlienta(string imie, string nazwisko)
+    {
+        klienci.Add(new Tuple<int, string, string>(currentID, imie, nazwisko));
+        currentID++;
     }
-    public Baza_Klientow(string Nazwa_Pliku_Klienci){
-        this.Baza_Klienci = new StreamWriter("Nazwa_Pliku_Klienci");
+
+    public void ZapiszDoPliku(string sciezkaPliku)
+    {
+        using (StreamWriter sw = new StreamWriter(sciezkaPliku))
+        {
+            foreach (var klient in klienci)
+            {
+                sw.WriteLine($"{klient.Item1},{klient.Item2},{klient.Item3}");
+            }
+        }
     }
-    public void Zapisz_Klientow(List<Klient> Lista_Klienci){
-        
+    public void OdczytajZPliku(string sciezkaPliku)
+    {
+        using (StreamReader sr = new StreamReader(sciezkaPliku))
+        {
+            string linia;
+            while ((linia = sr.ReadLine()) != null)
+            {
+                string[] dane = linia.Split(',');
+                int id = int.Parse(dane[0]);
+                string imie = dane[1];
+                string nazwisko = dane[2];
+                klienci.Add(new Tuple<int, string, string>(id, imie, nazwisko));
+                if (id >= currentID)
+                {
+                    currentID = id + 1;
+                }
+            }
+        }
+    }
+}
+
+class Klienci : Baza_klientow
+{
+    private Magazyn magazyn;
+
+    public Klienci(Magazyn magazyn)
+    {
+        this.magazyn = magazyn;
+    }
+
+    public void PrzeszukajMagazyn(string filtr = "", decimal minCena = 0, decimal maxCena = decimal.MaxValue)
+    {
+        List<Produkt> znalezioneProdukty = new List<Produkt>();
+
+        foreach (var produkt in magazyn.Produkty)
+        {
+            if (produkt.Nazwa.Contains(filtr) ||
+                produkt.Kategoria.Contains(filtr) ||
+                produkt.Autor.Contains(filtr))
+            {
+                if (produkt.Cena >= minCena && produkt.Cena <= maxCena)
+                {
+                    znalezioneProdukty.Add(produkt);
+                }
+            }
+        }
+
+        Console.WriteLine($"Znalezione produkty w magazynie (Filtr: \"{filtr}\", Cena: od {minCena} do {maxCena}):");
+        foreach (var produkt in znalezioneProdukty)
+        {
+            Console.WriteLine(produkt);
+        }
     }
 }
