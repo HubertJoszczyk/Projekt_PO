@@ -60,8 +60,10 @@ class Pracownicy : Baza_pracownikow
     {
         return Nazwisko;
     }
-    public void UzupelnijDanePracownika(string imie, string nazwisko)
+    public Pracownicy(string imie, string nazwisko)
     {
+        this.Imie = imie;
+        this.Nazwisko = nazwisko;
         DodajPracownika(imie, nazwisko);
     }
 }
@@ -120,6 +122,15 @@ class Magazyn
     public void DodajProdukt(Produkt produkt)
     {
         produkty.Add(produkt);
+        ZapiszProduktDoPliku(produkt);
+    }
+
+    private void ZapiszProduktDoPliku(Produkt produkt)
+    {
+        using (StreamWriter sw = new StreamWriter(sciezkaPliku, true))
+        {
+            sw.WriteLine(produkt.ToString());
+        }
     }
 
     public void SortujPoNazwie()
@@ -218,8 +229,8 @@ class Fizyczna : Produkt
     public Fizyczna(string nazwa, string kategoria, string autor, decimal cena, bool miekkaOprawa, bool twardaOprawa)
         : base(nazwa, kategoria, autor, cena)
     {
-        miekkaOprawa = miekkaOprawa;
-        twardaOprawa = twardaOprawa;
+        this.miekkaOprawa = miekkaOprawa;
+        this.twardaOprawa = twardaOprawa;
     }
 }
 
@@ -269,30 +280,72 @@ class Baza_klientow
 
 class Klienci : Baza_klientow
 {
-    private Magazyn magazyn;
+    private string Imie;
+    private string Nazwisko;
+    private Koszyk koszyk = new Koszyk();
+    private Magazyn magazyn = new Magazyn();
 
-    public Klienci(Magazyn magazyn)
+    public string GetImie()
     {
-        this.magazyn = magazyn;
+        return Imie;
+    }
+    public string GetNazwisko()
+    {
+        return Nazwisko;
+    }
+    public Klienci(string imie, string nazwisko)
+    {
+        this.Imie = imie;
+        this.Nazwisko = nazwisko;
+        DodajKlienta(imie, nazwisko);
     }
 
-    public void PrzeszukajMagazyn(string filtr = "", decimal minCena = 0, decimal maxCena = decimal.MaxValue)
+    public void PrzeszukajMagazynPoNazwie(string nazwa)
     {
-        List<Produkt> znalezioneProdukty = new List<Produkt>();
+        var produkty = magazyn.PobierzProdukty();
+        var wyniki = produkty.Where(p => p.Nazwa.Contains(nazwa)).ToList();
+        WyswietlWyniki(wyniki);
+    }
 
-        foreach (var produkt in magazyn.PobierzProdukty())
+    public void PrzeszukajMagazynPoKategorii(string kategoria)
+    {
+        var produkty = magazyn.PobierzProdukty();
+        var wyniki = produkty.Where(p => p.Kategoria.Contains(kategoria)).ToList();
+        WyswietlWyniki(wyniki);
+    }
+
+    public void PrzeszukajMagazynPoAutorze(string autor)
+    {
+        var produkty = magazyn.PobierzProdukty();
+        var wyniki = produkty.Where(p => p.Autor.Contains(autor)).ToList();
+        WyswietlWyniki(wyniki);
+    }
+
+    private void WyswietlWyniki(List<Produkt> wyniki)
+    {
+        if (wyniki.Count == 0)
         {
-            if ((produkt.Nazwa.Contains(filtr) || produkt.Kategoria.Contains(filtr) || produkt.Autor.Contains(filtr)) &&
-                produkt.Cena >= minCena && produkt.Cena <= maxCena)
-            {
-                znalezioneProdukty.Add(produkt);
-            }
+            Console.WriteLine("Nie znaleziono żadnych produktów spełniających kryteria.");
+            return;
         }
 
-        Console.WriteLine($"Znalezione produkty w magazynie (Filtr: \"{filtr}\", Cena: od {minCena} do {maxCena}):");
-        foreach (var produkt in znalezioneProdukty)
+        Console.WriteLine("Znalezione produkty:");
+        foreach (var produkt in wyniki)
         {
             Console.WriteLine(produkt);
         }
+    }
+
+    public void ZamowKsiazke(string nazwa)
+    {
+        var produkty = magazyn.PobierzProdukty();
+        var produkt = produkty.FirstOrDefault(p => p.Nazwa == nazwa);
+        if (produkt == null)
+        {
+            Console.WriteLine("Nie znaleziono produktu o podanej nazwie.");
+            return;
+        }
+
+        koszyk.DodajProduktDoKoszyka(produkt);
     }
 }
