@@ -1,1 +1,5 @@
 Pan Tadeusz,Romantyzm,Tadek,22
+Pan Tadeusz,Romantyzm,Adam,22
+Polka,Polka,Polka,42
+mak,mak,mak,23
+niemak,niemak,niemak,54
