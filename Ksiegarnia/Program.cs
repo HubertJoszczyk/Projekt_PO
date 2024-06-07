@@ -25,6 +25,7 @@ class Baza_pracownikow
             }
         }
     }
+
     public void OdczytajZPliku(string sciezkaPliku)
     {
         using (StreamReader sr = new StreamReader(sciezkaPliku))
@@ -32,10 +33,10 @@ class Baza_pracownikow
             string linia;
             while ((linia = sr.ReadLine()) != null)
             {
-                string[] dane = linia.Split(',');
-                int id = int.Parse(dane[0]);
-                string imie = dane[1];
-                string nazwisko = dane[2];
+                var parts = linia.Split(',');
+                int id = int.Parse(parts[0]);
+                string imie = parts[1];
+                string nazwisko = parts[2];
                 pracownicy.Add(new Tuple<int, string, string>(id, imie, nazwisko));
                 if (id >= currentID)
                 {
@@ -50,6 +51,7 @@ class Pracownicy : Baza_pracownikow
 {
     private string Imie;
     private string Nazwisko;
+
     public string GetImie()
     {
         return Imie;
@@ -63,6 +65,7 @@ class Pracownicy : Baza_pracownikow
         DodajPracownika(imie, nazwisko);
     }
 }
+
 class Koszyk
 {
     private List<Produkt> produktyWKoszyku = new List<Produkt>();
@@ -72,6 +75,7 @@ class Koszyk
         produktyWKoszyku.Add(produkt);
         Console.WriteLine($"Produkt \"{produkt.Nazwa}\" został dodany do koszyka.");
     }
+
     public void WyswietlProduktyWKoszyku()
     {
         Console.WriteLine("Produkty w koszyku:");
@@ -80,7 +84,13 @@ class Koszyk
             Console.WriteLine(produkt);
         }
     }
+
+    public List<Produkt> PobierzProdukty()
+    {
+        return produktyWKoszyku;
+    }
 }
+
 class Produkt
 {
     public string Nazwa { get; set; }
@@ -142,10 +152,49 @@ class Magazyn
             }
         }
     }
+
+    public void OdczytajZPliku(string sciezkaPliku)
+    {
+        using (StreamReader sr = new StreamReader(sciezkaPliku))
+        {
+            string linia;
+            while ((linia = sr.ReadLine()) != null)
+            {
+                var parts = linia.Split(',');
+                string nazwa = parts[0];
+                string kategoria = parts[1];
+                string autor = parts[2];
+                decimal cena = decimal.Parse(parts[3]);
+                produkty.Add(new Produkt(nazwa, kategoria, autor, cena));
+            }
+        }
+    }
+
+    public List<Produkt> PobierzProdukty()
+    {
+        return produkty;
+    }
 }
+
 class Realizacja
 {
+    public void RealizujZamowienie(Koszyk koszyk, Baza_pracownikow bazaPracownikow)
+    {
+        var produkty = koszyk.PobierzProdukty();
+        if (produkty.Count == 0)
+        {
+            Console.WriteLine("Koszyk jest pusty. Nie można zrealizować zamówienia.");
+            return;
+        }
 
+        Console.WriteLine("Realizowanie zamówienia:");
+        foreach (var produkt in produkty)
+        {
+            Console.WriteLine(produkt);
+        }
+
+        Console.WriteLine("Zamówienie zostało zrealizowane.");
+    }
 }
 
 class Cyfrowa : Produkt
@@ -196,6 +245,7 @@ class Baza_klientow
             }
         }
     }
+
     public void OdczytajZPliku(string sciezkaPliku)
     {
         using (StreamReader sr = new StreamReader(sciezkaPliku))
@@ -203,10 +253,10 @@ class Baza_klientow
             string linia;
             while ((linia = sr.ReadLine()) != null)
             {
-                string[] dane = linia.Split(',');
-                int id = int.Parse(dane[0]);
-                string imie = dane[1];
-                string nazwisko = dane[2];
+                var parts = linia.Split(',');
+                int id = int.Parse(parts[0]);
+                string imie = parts[1];
+                string nazwisko = parts[2];
                 klienci.Add(new Tuple<int, string, string>(id, imie, nazwisko));
                 if (id >= currentID)
                 {
@@ -230,16 +280,12 @@ class Klienci : Baza_klientow
     {
         List<Produkt> znalezioneProdukty = new List<Produkt>();
 
-        foreach (var produkt in magazyn.Produkty)
+        foreach (var produkt in magazyn.PobierzProdukty())
         {
-            if (produkt.Nazwa.Contains(filtr) ||
-                produkt.Kategoria.Contains(filtr) ||
-                produkt.Autor.Contains(filtr))
+            if ((produkt.Nazwa.Contains(filtr) || produkt.Kategoria.Contains(filtr) || produkt.Autor.Contains(filtr)) &&
+                produkt.Cena >= minCena && produkt.Cena <= maxCena)
             {
-                if (produkt.Cena >= minCena && produkt.Cena <= maxCena)
-                {
-                    znalezioneProdukty.Add(produkt);
-                }
+                znalezioneProdukty.Add(produkt);
             }
         }
 
