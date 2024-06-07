@@ -1,0 +1,15 @@
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\obj\Debug\net8.0\Ksiegarnia.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\obj\Debug\net8.0\Ksiegarnia.AssemblyInfoInputs.cache
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\obj\Debug\net8.0\Ksiegarnia.AssemblyInfo.cs
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\obj\Debug\net8.0\Ksiegarnia.csproj.CoreCompileInputs.cache
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\obj\Debug\net8.0\Ksiegarnia.sourcelink.json
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\bin\Debug\net8.0\Ksiegarnia.exe
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\bin\Debug\net8.0\Ksiegarnia.deps.json
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\bin\Debug\net8.0\Ksiegarnia.runtimeconfig.json
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\bin\Debug\net8.0\Ksiegarnia.dll
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\bin\Debug\net8.0\Ksiegarnia.pdb
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\obj\Debug\net8.0\Ksiegarnia.dll
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\obj\Debug\net8.0\refint\Ksiegarnia.dll
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\obj\Debug\net8.0\Ksiegarnia.pdb
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\obj\Debug\net8.0\Ksiegarnia.genruntimeconfig.cache
+C:\Users\marci\Source\Repos\Projekt_PO_JOSZCZYKA\Ksiegarnia\obj\Debug\net8.0\ref\Ksiegarnia.dll

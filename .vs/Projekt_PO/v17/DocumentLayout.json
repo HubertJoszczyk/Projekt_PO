@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\marci\\source\\repos\\Projekt_PO_JOSZYCZKA\\",
+  "WorkspaceRootPath": "C:\\Users\\marci\\source\\repos\\Projekt_PO_JOSZCZYKA\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D960A739-3565-4C4C-A72C-6A9496E1000C}|Ksiegarnia\\Ksiegarnia.csproj|c:\\users\\marci\\source\\repos\\projekt_po_joszyczka\\ksiegarnia\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D960A739-3565-4C4C-A72C-6A9496E1000C}|Ksiegarnia\\Ksiegarnia.csproj|c:\\users\\marci\\source\\repos\\projekt_po_joszczyka\\ksiegarnia\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D960A739-3565-4C4C-A72C-6A9496E1000C}|Ksiegarnia\\Ksiegarnia.csproj|solutionrelative:ksiegarnia\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -20,11 +20,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\marci\\source\\repos\\Projekt_PO_JOSZYCZKA\\Ksiegarnia\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\marci\\source\\repos\\Projekt_PO_JOSZCZYKA\\Ksiegarnia\\Program.cs",
               "RelativeDocumentMoniker": "Ksiegarnia\\Program.cs",
-              "ToolTip": "C:\\Users\\marci\\source\\repos\\Projekt_PO_JOSZYCZKA\\Ksiegarnia\\Program.cs",
+              "ToolTip": "C:\\Users\\marci\\source\\repos\\Projekt_PO_JOSZCZYKA\\Ksiegarnia\\Program.cs",
               "RelativeToolTip": "Ksiegarnia\\Program.cs",
-              "ViewState": "AQIAAJkAAAAAAAAAAAAkwMUAAAABAAAA",
+              "ViewState": "AQIAAP8BAAAAAAAAAAAqwA8CAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-07T17:51:37.636Z",
               "EditorCaption": ""
