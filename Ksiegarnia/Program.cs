@@ -2,34 +2,38 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using System.Text;
 class Baza_pracownikow
 {
     string sciezkaPliku = "Baza_pracownikow.txt";
-    protected List<Tuple<int, string, string>> pracownicy = new List<Tuple<int, string, string>>();
-    private int currentID = 0;
+    private List<Tuple<int, string, string>> pracownicy = new List<Tuple<int, string, string>>();
+    private static int currentID = 0;
 
-    public void DodajPracownika(string imie, string nazwisko)
+    public virtual void DodajPracownika(string imie, string nazwisko)
     {
-        pracownicy.Add(new Tuple<int, string, string>(currentID, imie, nazwisko));
         currentID++;
+        pracownicy.Add(new Tuple<int, string, string>(currentID, imie, nazwisko));
     }
 
     public void ZapiszDoPliku(string sciezkaPliku)
     {
-        using (StreamWriter sw = new StreamWriter(sciezkaPliku))
-        {
+        try{
+            using (StreamWriter sw = new StreamWriter(sciezkaPliku, true, Encoding.UTF8)){
             foreach (var pracownik in pracownicy)
             {
                 sw.WriteLine($"{pracownik.Item1},{pracownik.Item2},{pracownik.Item3}");
             }
         }
+        }
+        catch (Exception blad_zapisu_pracownikow){
+            Console.WriteLine("Nie udało się zapisać do pliku"+blad_zapisu_pracownikow.Message);
+        }
     }
 
     public void OdczytajZPliku(string sciezkaPliku)
     {
-        using (StreamReader sr = new StreamReader(sciezkaPliku))
-        {
+        try{
+            using (StreamReader sr = new StreamReader(sciezkaPliku, Encoding.UTF8)){
             string linia;
             while ((linia = sr.ReadLine()) != null)
             {
@@ -43,6 +47,10 @@ class Baza_pracownikow
                     currentID = id + 1;
                 }
             }
+        }
+        }
+        catch (Exception blad_odczytu_pracownikow){
+            Console.WriteLine("Nie udało się odczytać z pliku"+blad_odczytu_pracownikow.Message);
         }
     }
 }
@@ -60,12 +68,16 @@ class Pracownicy : Baza_pracownikow
     {
         return Nazwisko;
     }
-    public Pracownicy(string imie, string nazwisko)
+    public Pracownicy(string imie, string nazwisko):base()
     {
-        this.Imie = imie;
-        this.Nazwisko = nazwisko;
         DodajPracownika(imie, nazwisko);
     }
+/*    public override void DodajPracownika(string imie, string nazwisko)
+    {
+        base.DodajPracownika(imie, nazwisko);
+        Console.WriteLine($"Pracownik {imie} {nazwisko} został dodany.");
+    }
+    */
 }
 
 class Koszyk
@@ -86,7 +98,6 @@ class Koszyk
             Console.WriteLine(produkt);
         }
     }
-
     public List<Produkt> PobierzProdukty()
     {
         return produktyWKoszyku;
@@ -130,18 +141,15 @@ class Magazyn
 
     private void ZapiszProduktDoPliku(Produkt produkt)
     {
-        using (StreamWriter sw = new StreamWriter(sciezkaPliku, true))
+        using (StreamWriter sw = new StreamWriter(sciezkaPliku, true, Encoding.UTF8))
         {
             sw.WriteLine(produkt.ToString());
         }
     }
-
     public void OdczytajZPliku()
     {
-        if (!File.Exists(sciezkaPliku)) return;
-
-        using (StreamReader sr = new StreamReader(sciezkaPliku))
-        {
+        try{
+            using (StreamReader sr = new StreamReader(sciezkaPliku, Encoding.UTF8)){
             string linia;
             while ((linia = sr.ReadLine()) != null)
             {
@@ -164,6 +172,10 @@ class Magazyn
                 }
             }
         }
+        }
+        catch (Exception blad_odczytu_magazynu){
+            Console.WriteLine("Nie udało się odczytać z pliku"+blad_odczytu_magazynu.Message);
+        }
     }
 
     public List<Produkt> PobierzProdukty()
@@ -171,8 +183,6 @@ class Magazyn
         return produkty;
     }
 }
-
-
 class Realizacja
 {
     public void RealizujZamowienie(Koszyk koszyk)
@@ -183,13 +193,11 @@ class Realizacja
             Console.WriteLine("Koszyk jest pusty. Nie można zrealizować zamówienia.");
             return;
         }
-
         Console.WriteLine("Realizowanie zamówienia:");
         foreach (var produkt in produkty)
         {
             Console.WriteLine(produkt);
         }
-
         Console.WriteLine("Zamówienie zostało zrealizowane.");
     }
 }
@@ -226,27 +234,31 @@ class Baza_klientow
     protected List<Tuple<int, string, string>> klienci = new List<Tuple<int, string, string>>();
     private int currentID = 0;
 
-    public void DodajKlienta(string imie, string nazwisko)
+    public virtual void DodajKlienta(string imie, string nazwisko)
     {
-        klienci.Add(new Tuple<int, string, string>(currentID, imie, nazwisko));
         currentID++;
+        klienci.Add(new Tuple<int, string, string>(currentID, imie, nazwisko));
     }
 
     public void ZapiszDoPliku(string sciezkaPliku)
     {
-        using (StreamWriter sw = new StreamWriter(sciezkaPliku))
-        {
+        try{
+            using (StreamWriter sw = new StreamWriter(sciezkaPliku, true, Encoding.UTF8)){
             foreach (var klient in klienci)
             {
-                sw.WriteLine($"{klient.Item1},{klient.Item2},{klient.Item3}");
+                sw.WriteLine($"\n{klient.Item1},{klient.Item2},{klient.Item3}");
             }
+        }
+        }
+        catch (Exception blad_zapisu_klientow){
+            Console.WriteLine("Nie udało się zapisać do pliku"+blad_zapisu_klientow.Message);
         }
     }
 
     public void OdczytajZPliku(string sciezkaPliku)
     {
-        using (StreamReader sr = new StreamReader(sciezkaPliku))
-        {
+        try{
+            using (StreamReader sr = new StreamReader(sciezkaPliku, Encoding.UTF8)){
             string linia;
             while ((linia = sr.ReadLine()) != null)
             {
@@ -261,6 +273,10 @@ class Baza_klientow
                 }
             }
         }
+        }
+        catch (Exception blad_odczytu_klientow){
+            Console.WriteLine("Nie udało się odczytać z pliku"+blad_odczytu_klientow.Message);
+        }
     }
 }
 
@@ -269,8 +285,7 @@ class Klienci : Baza_klientow
     private string Imie;
     private string Nazwisko;
     private Koszyk koszyk = new Koszyk();
-    private Magazyn magazyn = new Magazyn();
-
+    private Magazyn magazyn;
     public string GetImie()
     {
         return Imie;
@@ -279,13 +294,17 @@ class Klienci : Baza_klientow
     {
         return Nazwisko;
     }
-    public Klienci(string imie, string nazwisko)
+    public Klienci(string imie, string nazwisko, Magazyn magazyn)
     {
         this.Imie = imie;
         this.Nazwisko = nazwisko;
-        DodajKlienta(imie, nazwisko);
+        this.magazyn = magazyn;
     }
-
+    public override void DodajKlienta(string imie, string nazwisko)
+    {
+        base.DodajKlienta(imie, nazwisko);
+        Console.WriteLine($"Klient {imie} {nazwisko} został dodany.");
+    }
     public void PrzeszukajMagazynPoNazwie(string nazwa)
     {
         var produkty = magazyn.PobierzProdukty().Where(p => p.Nazwa.Equals(nazwa, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -315,7 +334,6 @@ class Klienci : Baza_klientow
             Console.WriteLine(produkt);
         }
     }
-
     public void PrzeszukajMagazynPoAutorze(string autor)
     {
         var produkty = magazyn.PobierzProdukty().Where(p => p.Autor.Equals(autor, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -330,7 +348,6 @@ class Klienci : Baza_klientow
             Console.WriteLine(produkt);
         }
     }
-
     public void ZamowKsiazke(string nazwaKsiazki)
     {
         var produkty = magazyn.PobierzProdukty().Where(p => p.Nazwa.Equals(nazwaKsiazki, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -383,9 +400,6 @@ class Klienci : Baza_klientow
         }
     }
 }
-
-
-
 class Program
 {
     static void Main(string[] args)
@@ -494,7 +508,7 @@ static void KlientMenu(Baza_klientow bazaKlientow, Magazyn magazyn)
     string imie = Console.ReadLine();
     Console.Write("Podaj swoje nazwisko: ");
     string nazwisko = Console.ReadLine();
-    Klienci klient = new Klienci(imie, nazwisko);
+    Klienci klient = new Klienci(imie, nazwisko, magazyn);
 
     while (true)
     {

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Hubert\\Desktop\\Projekt PO\\Projekt_PO-2\\Ksiegarnia\\Ksiegarnia.csproj": {}
+    "C:\\Users\\Hubert\\Desktop\\Projekt PO\\Projekt_PO-4\\Ksiegarnia\\Ksiegarnia.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Hubert\\Desktop\\Projekt PO\\Projekt_PO-2\\Ksiegarnia\\Ksiegarnia.csproj": {
+    "C:\\Users\\Hubert\\Desktop\\Projekt PO\\Projekt_PO-4\\Ksiegarnia\\Ksiegarnia.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Hubert\\Desktop\\Projekt PO\\Projekt_PO-2\\Ksiegarnia\\Ksiegarnia.csproj",
+        "projectUniqueName": "C:\\Users\\Hubert\\Desktop\\Projekt PO\\Projekt_PO-4\\Ksiegarnia\\Ksiegarnia.csproj",
         "projectName": "Ksiegarnia",
-        "projectPath": "C:\\Users\\Hubert\\Desktop\\Projekt PO\\Projekt_PO-2\\Ksiegarnia\\Ksiegarnia.csproj",
+        "projectPath": "C:\\Users\\Hubert\\Desktop\\Projekt PO\\Projekt_PO-4\\Ksiegarnia\\Ksiegarnia.csproj",
         "packagesPath": "C:\\Users\\Hubert\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Hubert\\Desktop\\Projekt PO\\Projekt_PO-2\\Ksiegarnia\\obj\\",
+        "outputPath": "C:\\Users\\Hubert\\Desktop\\Projekt PO\\Projekt_PO-4\\Ksiegarnia\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Hubert\\AppData\\Roaming\\NuGet\\NuGet.Config"

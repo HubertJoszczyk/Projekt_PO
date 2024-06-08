@@ -1,1 +1,3 @@
-0,jan,bak
+﻿1,jan,nowak
+1,jan,nowak
+2,kamil,kozak
