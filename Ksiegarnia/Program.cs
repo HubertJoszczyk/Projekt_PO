@@ -326,45 +326,45 @@ class Klienci : Baza_klientow
     }
     public void PrzeszukajMagazynPoNazwie(string nazwa)
     {
-        var produkty = magazyn.PobierzProdukty().Where(p => p.Nazwa.Equals(nazwa, StringComparison.OrdinalIgnoreCase)).ToList();
-        if (produkty.Count == 0)
+        using (StreamReader sr = new StreamReader("Magazyn.txt"))
         {
-            Console.WriteLine("Nie znaleziono produktów o podanej nazwie.");
-            return;
-        }
-        Console.WriteLine("Znalezione produkty:");
-        foreach (var produkt in produkty)
-        {
-            Console.WriteLine(produkt);
+            string linia;
+            while ((linia = sr.ReadLine()) != null)
+            {
+                if (linia.Contains(nazwa))
+                {
+                    Console.WriteLine($"znaleziono: {linia}");
+                }
+            }
         }
     }
 
     public void PrzeszukajMagazynPoKategorii(string kategoria)
     {
-        var produkty = magazyn.PobierzProdukty().Where(p => p.Kategoria.Equals(kategoria, StringComparison.OrdinalIgnoreCase)).ToList();
-        if (produkty.Count == 0)
+        using (StreamReader sr = new StreamReader("Magazyn.txt"))
         {
-            Console.WriteLine("Nie znaleziono produktów o podanej kategorii.");
-            return;
-        }
-        Console.WriteLine("Znalezione produkty:");
-        foreach (var produkt in produkty)
-        {
-            Console.WriteLine(produkt);
+            string linia;
+            while ((linia = sr.ReadLine()) != null)
+            {
+                if (linia.Contains(kategoria))
+                {
+                    Console.WriteLine($"znaleziono: {linia}");
+                }
+            }
         }
     }
     public void PrzeszukajMagazynPoAutorze(string autor)
     {
-        var produkty = magazyn.PobierzProdukty().Where(p => p.Autor.Equals(autor, StringComparison.OrdinalIgnoreCase)).ToList();
-        if (produkty.Count == 0)
+        using (StreamReader sr = new StreamReader("Magazyn.txt"))
         {
-            Console.WriteLine("Nie znaleziono produktów o podanym autorze.");
-            return;
-        }
-        Console.WriteLine("Znalezione produkty:");
-        foreach (var produkt in produkty)
-        {
-            Console.WriteLine(produkt);
+            string linia;
+            while ((linia = sr.ReadLine()) != null)
+            {
+                if (linia.Contains(autor))
+                {
+                    Console.WriteLine($"znaleziono: {linia}");
+                }
+            }
         }
     }
     public void ZamowKsiazke(string nazwaKsiazki)
