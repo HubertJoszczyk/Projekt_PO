@@ -7,7 +7,7 @@ class Baza_pracownikow
 {
     string sciezkaPliku = "Baza_pracownikow.txt";
     private List<Tuple<int, string, string>> pracownicy = new List<Tuple<int, string, string>>();
-    private static int currentID = 0;
+    private int currentID = 0;
 
     public virtual void DodajPracownika(string imie, string nazwisko)
     {
@@ -18,7 +18,7 @@ class Baza_pracownikow
     public void ZapiszDoPliku(string sciezkaPliku)
     {
         try{
-            using (StreamWriter sw = new StreamWriter(sciezkaPliku, true, Encoding.UTF8)){
+            using (StreamWriter sw = new StreamWriter(sciezkaPliku)){
             foreach (var pracownik in pracownicy)
             {
                 sw.WriteLine($"{pracownik.Item1},{pracownik.Item2},{pracownik.Item3}");
@@ -68,16 +68,16 @@ class Pracownicy : Baza_pracownikow
     {
         return Nazwisko;
     }
-    public Pracownicy(string imie, string nazwisko):base()
+    public Pracownicy(string imie, string nazwisko)
     {
-        DodajPracownika(imie, nazwisko);
+        this.Imie = imie;
+        this.Nazwisko = nazwisko;
+
     }
-/*    public override void DodajPracownika(string imie, string nazwisko)
+    public override void DodajPracownika(string imie, string nazwisko)
     {
         base.DodajPracownika(imie, nazwisko);
-        Console.WriteLine($"Pracownik {imie} {nazwisko} został dodany.");
     }
-    */
 }
 
 class Koszyk
@@ -89,7 +89,6 @@ class Koszyk
         produktyWKoszyku.Add(produkt);
         Console.WriteLine($"Produkt \"{produkt.Nazwa}\" został dodany do koszyka.");
     }
-
     public void WyswietlProduktyWKoszyku()
     {
         Console.WriteLine("Produkty w koszyku:");
@@ -408,6 +407,10 @@ class Program
     Baza_klientow bazaKlientow = new Baza_klientow();
     Magazyn magazyn = new Magazyn();
     magazyn.OdczytajZPliku();
+    bazaPracownikow.OdczytajZPliku("Baza_pracownikow.txt");
+    bazaKlientow.OdczytajZPliku("Baza_klientow.txt");
+    
+
 
     bool running = true;
 
@@ -436,7 +439,6 @@ class Program
         }
     }
 }
-
 static void PracownikMenu(Baza_pracownikow bazaPracownikow, Magazyn magazyn)
 {
     while (true)
