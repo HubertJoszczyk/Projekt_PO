@@ -91,6 +91,10 @@ class Koszyk
     {
         return produktyWKoszyku;
     }
+    public void UsunZKoszyka(Produkt produkt)
+    {
+        produktyWKoszyku.Remove(produkt);
+    }
 }
 
 class Produkt
@@ -171,7 +175,7 @@ class Magazyn
 
 class Realizacja
 {
-    public void RealizujZamowienie(Koszyk koszyk, Baza_pracownikow bazaPracownikow)
+    public void RealizujZamowienie(Koszyk koszyk)
     {
         var produkty = koszyk.PobierzProdukty();
         if (produkty.Count == 0)
@@ -532,7 +536,7 @@ static void KlientMenu(Baza_klientow bazaKlientow, Magazyn magazyn)
                 break;
             case "6":
                 Realizacja realizacja = new Realizacja();
-                realizacja.RealizujZamowienie(klient.PobierzKoszyk(), new Baza_pracownikow());
+                realizacja.RealizujZamowienie(klient.PobierzKoszyk());
                 break;
             case "7":
                 klient.WyswietlWszystkieKsiazki();
